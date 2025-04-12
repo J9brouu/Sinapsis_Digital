@@ -34,7 +34,7 @@
     <h1 class="text-center mt-5" data-aos="fade-up">Contáctenos</h1>
     <div class="container mt-5" data-aos="fade-up">
         <p class="text-center">Estamos aquí para ayudarte. Completa el formulario a continuación y nos pondremos en contacto contigo lo antes posible.</p>
-        <form action="https://formspree.io/f/xjvjlqzj" method="POST">
+        <form action="https://formspree.io/f/xjvjlqzj" method="POST" onsubmit="setTimeout(() => { location.reload(); }, 10);">
             <div class="mb-3">
                 <label for="name" class="form-label">Nombre</label>
                 <input type="text" class="form-control" id="name" name="name" required>
@@ -58,7 +58,7 @@
                 <textarea class="form-control" id="message" name="message" rows="4" maxlength="1000" required></textarea>
                 <small id="charCount" class="form-text text-muted">0/1000 caracteres</small>
             </div>
-            <button type="submit" class="btn btn-primary">Enviar</button>
+            <button  type="submit" class="btn btn-primary">Enviar</button>
         </form>  
     </div>
     <div class="fondo container mt-5" data-aos="fade-up">
