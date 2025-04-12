@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/styles.css">
+    <title>Contáctenos</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center" href="../index.html">
+                <img src="../images/Logo.png" alt="Logo" class="img-fluid" style="max-width: 50px; height: auto;">
+                <span class="ms-2">Sinapsis Digital</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link active" href="../index.html">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="nuestrosservicios.html">Nuestros Servicios</a></li>
+                    <li class="nav-item"><a class="nav-link" href="nosotros.html">Nosotros</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contactenos.html">Contáctenos</a></li>
+                </ul>
+                <button id="themeToggle" class="btn btn-outline-light ms-3">Modo Oscuro</button>
+            </div>
+        </div>
+    </nav>
+
+    <h1 class="text-center mt-5" data-aos="fade-up">Contáctenos</h1>
+    <div class="container mt-5" data-aos="fade-up">
+        <p class="text-center">Estamos aquí para ayudarte. Completa el formulario a continuación y nos pondremos en contacto contigo lo antes posible.</p>
+        <form action="https://formspree.io/f/xjvjlqzj" method="POST">
+            <div class="mb-3">
+                <label for="name" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Correo Electrónico</label>
+                <input type="email" class="form-control" id="email" name="_replyto" required>
+            </div>
+            <div class="mb-3">
+                <label for="service" class="form-label">Servicio</label>
+                <select class="form-select" id="service" name="service" required>
+                    <option value="" disabled selected>Seleccione un servicio</option>
+                    <option value="Consultoría Digital">Consultoría Digital</option>
+                    <option value="Desarrollo de Software">Desarrollo de Software</option>
+                    <option value="Plataformas Low-Code">Plataformas Low-Code</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="message" class="form-label">Mensaje</label>
+                <textarea class="form-control" id="message" name="message" rows="4" maxlength="1000" required></textarea>
+                <small id="charCount" class="form-text text-muted">0/1000 caracteres</small>
+            </div>
+            <button type="submit" class="btn btn-primary">Enviar</button>
+        </form>  
+    </div>
+    <div class="fondo container mt-5" data-aos="fade-up">
+        <h2 class="text-center mb-4">Información de Contacto</h2> 
+        <p class="text-center fs-5">
+            ¿Prefieres contactarnos directamente? Aquí tienes nuestra información para que puedas comunicarte con nosotros de manera rápida y sencilla.
+        </p>
+        <div class="row justify-content-center mb-4">
+            <div class="col-md-4 text-center">
+                <img src="../images/Logo completo.png" alt="Logo" class="img-fluid" width="600" height="600">
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col-md-4">
+                <p><strong>Dirección:</strong> Av. Providencia 1234, Oficina 601, Providencia, Santiago, Chile</p>
+            </div>
+            <div class="col-md-4">
+                <p><strong>Teléfono:</strong> +56 2 1234 5678</p>
+            </div>
+            <div class="col-md-4">
+                <p><strong>Correo:</strong> <a href="mailto:contacto@sinapsisdigital.com">info@sinapsisdigital.cl</a></p>
+            </div>
+        </div>
+    </div>
+    <footer class="bg-dark text-white text-center py-3 mt-5">
+        <p class="mb-0">© 2025 Sinapsis Digital. Todos los derechos reservados.</p>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
+    <script>
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            document.querySelector('.navbar').classList.toggle('dark-mode');
+            document.querySelector('footer').classList.toggle('dark-mode');
+            document.querySelectorAll('.fondo').forEach(fondo => fondo.classList.toggle('dark-mode'));
+            if (document.body.classList.contains('dark-mode')) {
+                themeToggle.textContent = 'Modo Claro';
+            } else {
+                themeToggle.textContent = 'Modo Oscuro';
+            }
+        });
+
+        const messageInput = document.getElementById('message');
+        const charCount = document.getElementById('charCount');
+        messageInput.addEventListener('input', () => {
+            const currentLength = messageInput.value.length;
+            charCount.textContent = `${currentLength}/1000 caracteres`;
+        });
+    </script>
+</body>
+</html>
+</html>
