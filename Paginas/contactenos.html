@@ -9,8 +9,11 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
         crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/styles.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="../js/funciones.js" defer></script>
     <title>Contáctenos</title>
 </head>
 
@@ -41,30 +44,24 @@
     <div class="container mt-5" data-aos="fade-up">
         <p class="text-center">Estamos aquí para ayudarte. Completa el formulario a continuación y nos pondremos en
             contacto contigo lo antes posible.</p>
-        <form action="https://formspree.io/f/xjvjlqzj" method="POST"
-            onsubmit="setTimeout(() => { location.reload(); }, 10);">
+        <form action="formulario.php" name="" method="POST" >
             <div class="mb-3">
-                <label for="name" class="form-label">Nombre</label>
-                <input type="text" class="form-control" id="name" name="name" required>
+                <label for="name" class="form-label">Nombre Completo</label>
+                <input type="text" class="form-control" id="name" name="name">
             </div>
             <div class="mb-3">
                 <label for="email" class="form-label">Correo Electrónico</label>
-                <input type="email" class="form-control" id="email" name="_replyto" required>
+                <input type="email" class="form-control" id="email" name="email">
             </div>
             <div class="mb-3">
-                <label for="service" class="form-label">Servicio</label>
-                <select class="form-select" id="service" name="service" required>
+                <label for="service" class="form-label">Servicios</label>
+                <select class="form-select" id="service" name="service">
                     <option value="" disabled selected>Seleccione un servicio</option>
-                    <option value="Consultoría Digital">Consultoría Digital</option>
-                    <option value="Soluciones Multiexperiencia">Soluciones Multiexperiencia</option>
-                    <option value="Desarrollo de Software">Desarrollo de Software</option>
-                    <option value="Plataformas Low-Code">Plataformas Low-Code</option>
                 </select>
             </div>
             <div class="mb-3">
                 <label for="message" class="form-label">Mensaje</label>
-                <textarea class="form-control" id="message" name="message" rows="4" maxlength="1000"
-                    required></textarea>
+                <textarea class="form-control" id="message" name="message" rows="4" maxlength="1000"></textarea>
                 <small id="charCount" class="form-text text-muted">0/1000 caracteres</small>
             </div>
             <button type="submit" class="btn btn-primary">Enviar</button>
@@ -84,6 +81,15 @@
         <div class="row text-center">
             <div class="col-md-4">
                 <p><strong>Dirección:</strong> Av. Providencia 1234, Oficina 601, Providencia, Santiago, Chile</p>
+                <div class="ratio ratio-16x9">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3329.6927071911687!2d-70.61624790173698!3d-33.4312549854164!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9662cf62a2cb75c3%3A0xeefbd125aba56501!2sAv.%20Providencia%201234%2C%20Oficina%20601%2C%207500571%20Providencia%2C%20Santiago%2C%20Regi%C3%B3n%20Metropolitana!5e0!3m2!1ses-419!2scl!4v1745111415970!5m2!1ses-419!2scl" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
             </div>
             <div class="col-md-4">
                 <p><strong>Teléfono:</strong> +56 2 1234 5678</p>
@@ -99,31 +105,54 @@
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
     <script>
-        AOS.init();
+        // Verificar si el formulario se envió correctamente
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('status') === 'success') {
+            Swal.fire({
+                icon: 'success',
+                title: '¡Formulario enviado!',
+                text: 'Tu información ha sido enviada correctamente.',
+                confirmButtonText: 'Aceptar'
+            }).then(() => {
+                // Eliminar el parámetro de la URL después de mostrar el mensaje
+                window.history.replaceState(null, null, window.location.pathname);
+            });
+        }
     </script>
     <script>
-        const themeToggle = document.getElementById('themeToggle');
-        themeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-            document.querySelector('.navbar').classList.toggle('dark-mode');
-            document.querySelector('footer').classList.toggle('dark-mode');
-            document.querySelectorAll('.fondo').forEach(fondo => fondo.classList.toggle('dark-mode'));
-            if (document.body.classList.contains('dark-mode')) {
-                themeToggle.textContent = 'Modo Claro';
-            } else {
-                themeToggle.textContent = 'Modo Oscuro';
-            }
-        });
+        // URL de la API (reemplaza con la URL real de tu API)
+        const apiUrl = 'https://67feed7158f18d7209ef9674.mockapi.io/Servicios';
 
-        const messageInput = document.getElementById('message');
-        const charCount = document.getElementById('charCount');
-        messageInput.addEventListener('input', () => {
-            const currentLength = messageInput.value.length;
-            charCount.textContent = `${currentLength}/1000 caracteres`;
-        });
+        // Función para cargar los servicios desde la API
+        async function cargarServicios() {
+            try {
+                const response = await fetch(apiUrl);
+                if (!response.ok) {
+                    throw new Error('Error al obtener los servicios');
+                }
+                const servicios = await response.json();
+
+                // Obtener el elemento <select>
+                const selectElement = document.getElementById('service');
+
+                // Agregar las opciones al <select>
+                servicios.forEach(servicio => {
+                    const option = document.createElement('option');
+                    option.value = servicio.nombre; // Usa el Nombre del servicio como valor
+                    option.textContent = servicio.nombre; // Usa el nombre del servicio como texto
+                    selectElement.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error al cargar los servicios:', error);
+            }
+        }
+
+        // Llamar a la función para cargar los servicios al cargar la página
+        document.addEventListener('DOMContentLoaded', cargarServicios);
     </script>
 </body>
 
 </html>
 
 </html>
+``` 

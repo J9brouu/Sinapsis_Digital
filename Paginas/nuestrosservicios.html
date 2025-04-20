@@ -13,7 +13,9 @@
         integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
         crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <link rel="stylesheet" href="../css/styles.css">
+    <script src="../js/funciones.js" defer></script>
     <title>Nuestros Servicios</title>
 </head>
 
@@ -110,6 +112,13 @@
     </div>
     <hr class="my-5">
     <div class="container mt-5">
+        <h1 class="text-center">Servicios</h1>
+        <div class="accordion mt-4" id="tablaDatos">
+            <!-- Los elementos del acordeón se generarán dinámicamente aquí -->
+        </div>
+    </div>
+    <hr class="my-5">
+    <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-4 mb-4" data-aos="fade-right">
                 <div class="card mx-auto" style="width: 18rem;">
@@ -141,24 +150,47 @@
         <p class="mb-0">© 2025 Sinapsis Digital. Todos los derechos reservados.</p>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
-    <script>
-        AOS.init();
-    </script>
-    <script>
-        const themeToggle = document.getElementById('themeToggle');
-        themeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-            document.querySelector('.navbar').classList.toggle('dark-mode');
-            document.querySelectorAll('.card').forEach(card => card.classList.toggle('dark-mode'));
-            document.querySelector('footer').classList.toggle('dark-mode');
-            document.querySelectorAll('.fondo').forEach(fondo => fondo.classList.toggle('dark-mode'));
-            if (document.body.classList.contains('dark-mode')) {
-                themeToggle.textContent = 'Modo Claro';
-            } else {
-                themeToggle.textContent = 'Modo Oscuro';
+</body>
+<script>
+    // Función para cargar los datos de la API y mostrarlos en el acordeón
+    function cargarDatos() {
+        $.ajax({
+            url: 'https://67feed7158f18d7209ef9674.mockapi.io/Servicios', // URL de la API
+            method: 'GET', // Método HTTP
+            dataType: 'json', // Tipo de datos esperados
+            success: function (data) {
+                console.log(data); // Verifica los datos en la consola
+                for (var i = 0; i < data.length; i++) {
+                    var servicio = data[i];
+                    var card = `
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading${i}">
+                                <button class="accordion-button ${i === 0 ? '' : 'collapsed'}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${i}" aria-expanded="${i === 0 ? 'true' : 'false'}" aria-controls="collapse${i}">
+                                    ${servicio.nombre}
+                                </button>
+                            </h2>
+                            <div id="collapse${i}" class="accordion-collapse collapse ${i === 0 ? 'show' : ''}" aria-labelledby="heading${i}" data-bs-parent="#tablaDatos">
+                                <div class="accordion-body">
+                                    <p><strong>Costo:</strong> ${servicio.costo}</p>
+                                    <p><strong>Duración:</strong> ${servicio.duracion}</p>
+                                    <p><strong>Tipo:</strong> ${servicio.tipo}</p>
+                                </div>
+                            </div>
+                        </div>`;
+                    $('#tablaDatos').append(card);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error al cargar los datos: " + status + " " + error);
+                $('#tablaDatos').html('<p class="text-danger">Error al cargar los servicios. Inténtalo más tarde.</p>');
             }
         });
-    </script>
-</body>
+    }
+
+    // Llamar a la función después de que el DOM esté completamente cargado
+    $(document).ready(function () {
+        cargarDatos();
+    });
+</script>
 
 </html>
